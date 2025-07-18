@@ -1,0 +1,4 @@
+TimeStamp;DataType;VarName;Value;Quality
+2015-11-30 01:41:05.663 PM;BYTE;Request1;0,0,0,0;GOOD;
+2015-11-30 01:41:16.678 PM;DWORD;Request2;16777216,0,0,0;GOOD;
+
