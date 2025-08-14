@@ -57,14 +57,10 @@ For a full list of supported features, detailed descriptions, and compatibility 
 
 ## ⚠️ Important Safety Notice
 
-The examples in this repository are **for demonstration purposes only** and **must _not_** be used in production, safety‑critical, or industrial environments.  
+The examples in this repository are **for demonstration purposes only** and **must _not_** be used in production, safety‑critical, or industrial environments without your own checks.  
 **Use at your own risk!** Deploying these examples in real systems may lead to personal injury, property damage, or environmental harm and is **strictly prohibited**.
 
-> **EULA Requirement**  
-> Use of the PLCcom for S7 library is permitted **only after you have read and explicitly accepted the End‑User License Agreement (EULA)**. If you do not accept the EULA, you must not install, compile, or otherwise use the library.
-
-Indi.An GmbH disclaims all liability—direct, indirect, incidental, or consequential—arising from the use or misuse of these examples.
-
+The author disclaims all liability—direct, indirect, incidental, or consequential—arising from the use or misuse of these examples.
 
 ##### Trademark Information: #####
 All product names, company names, and trademarks referenced in this repository are trademarks or registered trademarks of their respective owners. There is no affiliation between the mentioned trademarks or their owners and Indi.An GmbH. Any mention of trademarks is solely for reference purposes regarding usage and application.
