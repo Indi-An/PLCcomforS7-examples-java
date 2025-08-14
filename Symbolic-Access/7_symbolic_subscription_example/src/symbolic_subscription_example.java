@@ -2,12 +2,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+
 import com.indian.plccom.fors7.*;
-import com.indian.plccom.fors7.PlcSubscription.SubscriptionVariableChangeHandler;
 import com.indian.plccom.fors7.UnsignedDatatypes.UShort;
 
 public class symbolic_subscription_example
-		implements IProjectImportProgressChangedCallback, SubscriptionVariableChangeHandler {
+		implements IProjectImportProgressChangedCallback, SubscriptionVariableChangeListener {
 
 	public static void main(String[] args) {
 
@@ -21,23 +22,27 @@ public class symbolic_subscription_example
 
 		try {
 
-			// important !!!!!!!!!!!!!!!!!!
-			// please enter your Username + Serial here first
-            authentication.User("Please enter here your user name");
-            authentication.Serial("Please enter here your user serial key");
+			// Very important !!!!!!!!!!!!!!!!!!
+			// Enter your Username + Serial here! Please note: Without a license key (empty
+			// fields), the runtime is limited to 10 minutes
+			authentication.User("");
+			authentication.Serial("");
 
-			// create a new device instance
-			Tls13Device tlsDevice = new Tls13Device("192.168.1.10");
+			// create a Tls13Device instance for access to modern PLCs with TLS 1.3 support
+			SymbolicDevice device = new Tls13Device("192.168.1.100");
+			// or create a LegacySymbolicDevice instance for a legacy access to older PLCs
+			//SymbolicDevice device = new LegacySymbolicDevice("192.168.1.100");
+
 
 			try {
 
 				// register project import progress event
-				tlsDevice.addOnProjectImportProgressChangedListener(this);
+				device.addOnProjectImportProgressChangedListener(this);
 
-				ConnectResult connectResult = tlsDevice.connect();
+				ConnectResult connectResult = device.connect();
 
 				if (connectResult.getQuality() == OperationResult.eQuality.GOOD) {
-					System.out.println("Connected to PLC " + tlsDevice.getIPAdressOrHost());
+					System.out.println("Connected to PLC " + device.getIPAdressOrHost());
 				} else {
 					System.out.println("Connect not successfull! Quality:  " + connectResult.getQuality() + " Message: "
 							+ connectResult.getMessage());
@@ -45,20 +50,20 @@ public class symbolic_subscription_example
 				}
 			} finally {
 				// deregister project import progress event
-				tlsDevice.removeOnProjectImportProgressChangedListener(this);
+				device.removeOnProjectImportProgressChangedListener(this);
 			}
 
 			CreateSubscriptionRequest createSubscriptionRequest = new CreateSubscriptionRequest("TestSubscription",
 					new UShort(300));
 
 			// Which variables do you want to subcribe?
-			createSubscriptionRequest.addFullVariableName("Datenbaustein_1.ByteValue");
-			createSubscriptionRequest.addFullVariableName("Datenbaustein_1.RealValue");
-			createSubscriptionRequest.addFullVariableName("Datenbaustein_1.SIntValue");
-			createSubscriptionRequest.addFullVariableName("Datenbaustein_1.UDIntValue");
+			createSubscriptionRequest.addFullVariableName("myDatablock1.ByteValue");
+			createSubscriptionRequest.addFullVariableName("myDatablock1.RealValue");
+			createSubscriptionRequest.addFullVariableName("myDatablock1.SIntValue");
+			createSubscriptionRequest.addFullVariableName("myDatablock1.UDIntValue");
 
 			// create subscription
-			CreateSubscriptionResult createSubResult = tlsDevice.createSubscription(createSubscriptionRequest);
+			CreateSubscriptionResult createSubResult = device.createSubscription(createSubscriptionRequest);
 
 			if (createSubResult.getQuality() == OperationResult.eQuality.GOOD) {
 
@@ -66,10 +71,10 @@ public class symbolic_subscription_example
 
 				if (subscription != null) {
 					System.out.println("Subscription " + subscription.getSubscriptionName() + " created!");
-					subscription.addVariableChangeHandler(this);
+					subscription.addSubscriptionChangeListener(this);
 
 					// register subscription
-					RegisterSubscriptionResult registerSubscriptionResult = tlsDevice
+					RegisterSubscriptionResult registerSubscriptionResult = device
 							.registerSubscription(new RegisterSubscriptionRequest(subscription));
 
 					if (registerSubscriptionResult.getQuality() == OperationResult.eQuality.GOOD) {
@@ -87,7 +92,7 @@ public class symbolic_subscription_example
 					}
 
 					// Drop Subscription
-					OperationResult dropSubcriptionResult = tlsDevice.dropSubscription(subscription);
+					OperationResult dropSubcriptionResult = device.dropSubscription(subscription);
 					if (dropSubcriptionResult.getQuality() == OperationResult.eQuality.GOOD) {
 						System.out.println("Subscription " + subscription.getSubscriptionName() + " dropped!");
 					} else {
@@ -102,7 +107,7 @@ public class symbolic_subscription_example
 			}
 
 			// disconnect
-			tlsDevice.disConnect();
+			device.disConnect();
 
 		} finally {
 			System.out.println("Please enter any key for exit!");
@@ -121,19 +126,18 @@ public class symbolic_subscription_example
 	}
 
 	@Override
-	public void onChangeVariable(Object sender, SubscriptionChangeVariableEventArgs e) {
+	public void onVariableChange(Object sender, List<PlcCoreVariable> variables) {
 		if (sender instanceof PlcSubscription && sender != null) {
 			PlcSubscription subscription = (PlcSubscription) sender;
 
 			System.out.println(
 					"Incoming variable change notification for subscription: " + subscription.getSubscriptionName());
-			for (var variable : e.getVariables()) {
+			for (var variable : variables) {
 				System.out.println("Variable: " + variable.getVariableDetails().getFullVariableName() + " Value: "
 						+ variable.getValue());
 			}
 
 		}
-
 	}
 
 }

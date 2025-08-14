@@ -171,7 +171,7 @@ public class OptimizedReadWriteBox extends JFrame {
 		grpAction = new JPanel();
 		grpAction.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		grpAction.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-				ResourceBundle.getBundle("resources").getString("grpAction_Text"),
+				ResourceBundle.getBundle("example_app.resources").getString("grpAction_Text"),
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		grpAction.setBounds(12, 253, 782, 243);
 		getContentPane().add(grpAction);
@@ -253,7 +253,7 @@ public class OptimizedReadWriteBox extends JFrame {
 		lvRequests.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lvRequests.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "RequestUUID", "Request" }) {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -342,7 +342,7 @@ public class OptimizedReadWriteBox extends JFrame {
 		lvValues.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lvValues.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "Results" }) {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -468,7 +468,7 @@ public class OptimizedReadWriteBox extends JFrame {
 		lvLog.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lvLog.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "Text" }) {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 

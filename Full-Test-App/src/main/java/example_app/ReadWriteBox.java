@@ -55,7 +55,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import com.indian.plccom.fors7.*;
 import com.indian.plccom.fors7.UnsignedDatatypes.UInteger;
 import com.indian.plccom.fors7.UnsignedDatatypes.ULong;
 import com.indian.plccom.fors7.UnsignedDatatypes.UShort;
@@ -263,13 +262,13 @@ public class ReadWriteBox extends JFrame {
 		grpAddress.add(lblRegion);
 
 		lblDataType = new JLabel(
-				ResourceBundle.getBundle("resources").getString("lblDataType_Text"));
+				ResourceBundle.getBundle("example_app.resources").getString("lblDataType_Text"));
 		lblDataType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDataType.setBounds(0, 65, 116, 14);
 		grpAddress.add(lblDataType);
 
 		lblReadAddress = new JLabel(
-				ResourceBundle.getBundle("resources").getString("lblReadAddress_Text"));
+				ResourceBundle.getBundle("example_app.resources").getString("lblReadAddress_Text"));
 		lblReadAddress.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblReadAddress.setBounds(2, 126, 116, 14);
 		grpAddress.add(lblReadAddress);
@@ -285,7 +284,7 @@ public class ReadWriteBox extends JFrame {
 		grpAddress.add(lblQuantity);
 
 		lblWriteAddress = new JLabel(
-				ResourceBundle.getBundle("resources").getString("lblWriteAddress_Text"));
+				ResourceBundle.getBundle("example_app.resources").getString("lblWriteAddress_Text"));
 		lblWriteAddress.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblWriteAddress.setBounds(2, 148, 116, 32);
 		grpAddress.add(lblWriteAddress);
@@ -489,7 +488,7 @@ public class ReadWriteBox extends JFrame {
 		grpAction = new JPanel();
 		grpAction.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		grpAction.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
-				ResourceBundle.getBundle("resources").getString("grpAction_Text"),
+				ResourceBundle.getBundle("example_app.resources").getString("grpAction_Text"),
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		grpAction.setBounds(12, 342, 656, 157);
 		getContentPane().add(grpAction);

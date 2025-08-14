@@ -20,18 +20,22 @@ public class symbolic_write_example implements IProjectImportProgressChangedCall
 
 		try {
 
-			// important !!!!!!!!!!!!!!!!!!
-			// please enter your Username + Serial here first
-			authentication.User("Please enter here your user name");
-			authentication.Serial("Please enter here your user serial key");
+			// Very important !!!!!!!!!!!!!!!!!!
+			// Enter your Username + Serial here! Please note: Without a license key (empty
+			// fields), the runtime is limited to 10 minutes
+			authentication.User("");
+			authentication.Serial("");
 
-			// create a new device instance
-			Tls13Device tlsDevice = new Tls13Device("192.168.1.100");
+			// create a Tls13Device instance for access to modern PLCs with TLS 1.3 support
+			SymbolicDevice device = new Tls13Device("192.168.1.100");
+			// or create a LegacySymbolicDevice instance for a legacy access to older PLCs
+			//SymbolicDevice device = new LegacySymbolicDevice("192.168.1.100");
+
 
 			// register project import progress event
-			tlsDevice.addOnProjectImportProgressChangedListener(this);
+			device.addOnProjectImportProgressChangedListener(this);
 
-			ConnectResult connectResult = tlsDevice.connect();
+			ConnectResult connectResult = device.connect();
 
 			if (connectResult.getQuality() != OperationResult.eQuality.GOOD) {
 				System.out.println("Connect not successfull! Quality:  " + connectResult.getQuality() + " Message: "
@@ -46,28 +50,28 @@ public class symbolic_write_example implements IProjectImportProgressChangedCall
 			 * determined it by a read operation or you have PLCCom output the empty
 			 * variable (without values)
 			 */
-			var variableBody = getEmptyVariableBody(tlsDevice, "Datenbaustein_1.ByteValue");
+			var variableBody = getEmptyVariableBody(device, "myDatablock1.ByteValue");
 			// Set the value and add the variable to the write list
 			if (variableBody != null) {
 				variableBody.setValue(1);
 				writeVariables.add(variableBody);
 			}
 
-			variableBody = getEmptyVariableBody(tlsDevice, "Datenbaustein_1.RealValue");
+			variableBody = getEmptyVariableBody(device, "myDatablock1.RealValue");
 			// Set the value and add the variable to the write list
 			if (variableBody != null) {
 				variableBody.setValue(123.456f);
 				writeVariables.add(variableBody);
 			}
 
-			variableBody = getEmptyVariableBody(tlsDevice, "Datenbaustein_1.SIntValue");
+			variableBody = getEmptyVariableBody(device, "myDatablock1.SIntValue");
 			// Set the value and add the variable to the write list
 			if (variableBody != null) {
 				variableBody.setValue(-123);
 				writeVariables.add(variableBody);
 			}
 
-			variableBody = getEmptyVariableBody(tlsDevice, "Datenbaustein_1.UDIntValue");
+			variableBody = getEmptyVariableBody(device, "myDatablock1.UDIntValue");
 			// Set the value and add the variable to the write list
 			if (variableBody != null) {
 				variableBody.setValue(123456);
@@ -79,7 +83,7 @@ public class symbolic_write_example implements IProjectImportProgressChangedCall
 
 			// write to device
 			System.out.println("write...");
-			var writeResult = tlsDevice.writeData(writeRequest);
+			var writeResult = device.writeData(writeRequest);
 
 			// evaluate results
 			if (writeResult.getQuality() == OperationResult.eQuality.GOOD)
@@ -97,10 +101,10 @@ public class symbolic_write_example implements IProjectImportProgressChangedCall
 			}
 
 			// deregister project import progress event
-			tlsDevice.removeOnProjectImportProgressChangedListener(this);
+			device.removeOnProjectImportProgressChangedListener(this);
 
 			// disconnect
-			tlsDevice.disConnect();
+			device.disConnect();
 
 		} finally {
 			System.out.println("Please enter any key for exit!");
@@ -112,9 +116,9 @@ public class symbolic_write_example implements IProjectImportProgressChangedCall
 		}
 	}
 
-	private PlcCoreVariable getEmptyVariableBody(Tls13Device tlsDevice, String fullVariableName) {
+	private PlcCoreVariable getEmptyVariableBody(SymbolicDevice device, String fullVariableName) {
 		try {
-			return tlsDevice.getEmptyVariableBody(fullVariableName);
+			return device.getEmptyVariableBody(fullVariableName);
 		} catch (Exception ex) {
 			System.out.println("cannot found variable " + fullVariableName);
 			return null; // return null if error occur

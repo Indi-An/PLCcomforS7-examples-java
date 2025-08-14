@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -503,10 +504,23 @@ public class AlarmFunctions extends JFrame implements AlarmNotificationListener 
 					Instant ts = alarm.getTimeStampComing();
 					lvi[4] = fmt.format(ts.atZone(zid));
 
+					// Determine locale for text entries
+					Locale appLocale = Locale.getDefault();
+
+					//get key for locale
+					Integer keyForLocale = null;
+					for (Map.Entry<Integer, Locale> entry : alarm.getTextCultureInfos().entrySet()) {
+					    if (entry.getValue().equals(appLocale)) {
+					        keyForLocale = entry.getKey();
+					        break;
+					    }
+					}
+
 					// Determine the best locale for alarm text
-					Locale textLocale = alarm.getTextCultureInfos().containsKey(Locale.getDefault())
-							? Locale.getDefault()
-							: alarm.getTextCultureInfos().values().iterator().next();
+					Locale textLocale = (keyForLocale != null)
+					    ? appLocale
+					    : alarm.getTextCultureInfos().values().iterator().next();
+
 
 					// Get the alarm text in the selected locale
 					String text = alarm.getAlarmTextEntries().stream()
@@ -599,10 +613,22 @@ public class AlarmFunctions extends JFrame implements AlarmNotificationListener 
 			} else {
 				boolean updated = false;
 
-				// Find the best locale for alarm text
-				final Locale loc = alarmNotification.getTextCultureInfos().containsKey(Locale.getDefault())
-						? Locale.getDefault()
-						: alarmNotification.getTextCultureInfos().values().iterator().next();
+				// Determine locale for text entries
+				Locale appLocale = Locale.getDefault();
+
+				//get key for locale
+				Integer keyForLocale = null;
+				for (Map.Entry<Integer, Locale> entry : alarmNotification.getTextCultureInfos().entrySet()) {
+				    if (entry.getValue().equals(appLocale)) {
+				        keyForLocale = entry.getKey();
+				        break;
+				    }
+				}
+
+				// Determine the best locale for alarm text
+				final Locale loc = (keyForLocale != null)
+				    ? appLocale
+				    : alarmNotification.getTextCultureInfos().values().iterator().next();
 
 				// Try to update an existing row for this alarm
 				for (int row = 0; row < alarmTableModel.getRowCount(); row++) {
@@ -643,10 +669,23 @@ public class AlarmFunctions extends JFrame implements AlarmNotificationListener 
 
 		case InformationNotification:
 
+			// Determine locale for text entries
+			Locale appLocale = Locale.getDefault();
+
+			//get key for locale
+			Integer keyForLocale = null;
+			for (Map.Entry<Integer, Locale> entry : alarmNotification.getTextCultureInfos().entrySet()) {
+			    if (entry.getValue().equals(appLocale)) {
+			        keyForLocale = entry.getKey();
+			        break;
+			    }
+			}
+
 			// Find the best locale for information text
-			final Locale locInfo = alarmNotification.getTextCultureInfos().containsKey(Locale.getDefault())
-					? Locale.getDefault()
-					: alarmNotification.getTextCultureInfos().values().iterator().next();
+			final Locale locInfo = (keyForLocale != null)
+			    ? appLocale
+			    : alarmNotification.getTextCultureInfos().values().iterator().next();
+
 
 			String typeInfo = alarmNotification.getMessageType().toString();
 			String tsInfo = Optional.ofNullable(alarmNotification.getTimeStampComing())

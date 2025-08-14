@@ -493,7 +493,19 @@ public class AlarmDetails extends JFrame {
 
 			// Determine locale for text entries
 			Locale appLocale = Locale.getDefault();
-			Locale textLocale = alarm.getTextCultureInfos().containsKey(appLocale) ? appLocale : alarm.getTextCultureInfos().values().iterator().next();
+
+			//get key for locale
+			Integer keyForLocale = null;
+			for (Map.Entry<Integer, Locale> entry : alarm.getTextCultureInfos().entrySet()) {
+			    if (entry.getValue().equals(appLocale)) {
+			        keyForLocale = entry.getKey();
+			        break;
+			    }
+			}
+
+			Locale textLocale = (keyForLocale != null)
+			    ? appLocale
+			    : alarm.getTextCultureInfos().values().iterator().next();
 
 			// Formatter for Instants (optional: .withLocale(appLocale))
 			DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).withLocale(appLocale)

@@ -1,20 +1,17 @@
 package example_app;
 
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import com.indian.plccom.fors7.eDataType;
 
 class Utilities {
 
 	/**
 	 * extract writeable values from rawdata string
-	 * 
+	 *
 	 * @param ValueString rawdata in string format
 	 * @param ValueType   desired data type
 	 * @return a sValues_to_Write Object
@@ -76,7 +73,7 @@ class Utilities {
 					case DATE_AND_TIME:
 					case DTL:
 				        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSSSS");
-				        LocalDateTime ldt = LocalDateTime.parse(ValuePart, formatter);		        
+				        LocalDateTime ldt = LocalDateTime.parse(ValuePart, formatter);
 				        Instant instant = ldt.atZone(ZoneId.of("UTC")).toInstant();
 						Result.values.add(instant);
 						break;

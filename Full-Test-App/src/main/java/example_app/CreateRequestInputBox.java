@@ -291,13 +291,13 @@ public class CreateRequestInputBox extends JDialog {
 		grpAddress.add(lblRegion);
 
 		lblDataType = new JLabel(
-				ResourceBundle.getBundle("resources").getString("lblDataType_Text"));
+				ResourceBundle.getBundle("example_app.resources").getString("lblDataType_Text"));
 		lblDataType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblDataType.setBounds(0, 65, 116, 14);
 		grpAddress.add(lblDataType);
 
 		lblReadAddress = new JLabel(
-				ResourceBundle.getBundle("resources").getString("lblReadAddress_Text"));
+				ResourceBundle.getBundle("example_app.resources").getString("lblReadAddress_Text"));
 		lblReadAddress.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblReadAddress.setBounds(2, 126, 116, 14);
 		grpAddress.add(lblReadAddress);
@@ -313,7 +313,7 @@ public class CreateRequestInputBox extends JDialog {
 		grpAddress.add(lblQuantity);
 
 		lblWriteAddress = new JLabel(
-				ResourceBundle.getBundle("resources").getString("lblWriteAddress_Text"));
+				ResourceBundle.getBundle("example_app.resources").getString("lblWriteAddress_Text"));
 		lblWriteAddress.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblWriteAddress.setBounds(2, 148, 116, 32);
 		grpAddress.add(lblWriteAddress);

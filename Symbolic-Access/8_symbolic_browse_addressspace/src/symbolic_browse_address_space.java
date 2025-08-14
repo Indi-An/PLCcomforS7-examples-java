@@ -26,6 +26,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 import com.indian.plccom.fors7.AddressNode;
 import com.indian.plccom.fors7.ConnectResult;
+import com.indian.plccom.fors7.SymbolicDevice;
 import com.indian.plccom.fors7.OperationResult.eQuality;
 import com.indian.plccom.fors7.Tls13Device;
 import com.indian.plccom.fors7.VariableDetails;
@@ -35,7 +36,7 @@ import javax.swing.JPasswordField;
 
 public class symbolic_browse_address_space extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private Tls13Device mDevice;
+	private SymbolicDevice mDevice;
 
 	private JPanel grpAddress;
 	private JButton btnClose;
@@ -247,9 +248,9 @@ public class symbolic_browse_address_space extends JFrame {
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
+
 					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					
+
 					if (mDevice != null) {
 						// unload and dispose all objects
 						mDevice.disConnect();
@@ -257,8 +258,11 @@ public class symbolic_browse_address_space extends JFrame {
 
 					authentication.setUser(txtUser.getText());
 					authentication.setSerial(txtSerial.getText());
-					
+
+					// create a Tls13Device instance for access to modern PLCs with TLS 1.3 support
 					mDevice = new Tls13Device(txtIpAddress.getText(), new String(txtPassword.getPassword()));
+					// or create a LegacySymbolicDevice instance for a legacy access to older PLCs
+					//mDevice = new LegacySymbolicDevice(txtIpAddress.getText(), new String(txtPassword.getPassword()));
 
 					ConnectResult connectResult = mDevice.connect();
 					if (connectResult.getQuality() == eQuality.GOOD) {
@@ -308,11 +312,11 @@ public class symbolic_browse_address_space extends JFrame {
 		btnDisconnect = new JButton("<html><center>disconnect</center><center>Plc</center></html>");
 		btnDisconnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// clear tree
 		        DefaultMutableTreeNode newRoot = new DefaultMutableTreeNode("root");
 				treePlcInventory.setModel(new DefaultTreeModel(newRoot));
-				
+
 				if (mDevice != null) {
 					// unload and dispose all objects
 					mDevice.disConnect();
@@ -386,7 +390,7 @@ public class symbolic_browse_address_space extends JFrame {
 					return;
 
 				}
-				
+
 			}
 		} catch (Exception ex) {
 

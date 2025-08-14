@@ -46,9 +46,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.net.URL;
 import java.util.Locale;
-import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -87,7 +85,7 @@ public class Main extends JFrame
 		implements IConnectionStateChangeCallback, IConnectCallback, IProjectImportProgressChangedCallback {
 
 	private PLCcomCoreDevice _device = new TCP_ISO_Device();
-	private ResourceBundle resources = ResourceBundle.getBundle("resources");
+	private ResourceBundle resources = ResourceBundle.getBundle("example_app.resources");
 	static int CountOpenDialogs = 0;
 
 	private static final long serialVersionUID = 1L;
@@ -167,7 +165,7 @@ public class Main extends JFrame
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-						
+
 				try {
 					Main frame = new Main();
 					frame.setVisible(true);
@@ -207,7 +205,7 @@ public class Main extends JFrame
 		}
 
 		setTitle("Start Example");
-		
+
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(Main.class.getResource("/example_app/industrial_robot.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -949,7 +947,7 @@ public class Main extends JFrame
 		Locale.setDefault(locale);
 
 		ResourceBundle.clearCache();
-		resources = ResourceBundle.getBundle("resources", locale);
+		resources = ResourceBundle.getBundle("example_app.resources", locale);
 
 		// set controls
 		this.txtWarning.setText(resources.getString("txtWarning_Text"));

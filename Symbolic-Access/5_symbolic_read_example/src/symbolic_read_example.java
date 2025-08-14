@@ -17,19 +17,22 @@ public class symbolic_read_example implements IProjectImportProgressChangedCallb
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
-			
-        	//important !!!!!!!!!!!!!!!!!!
-            //please enter your Username + Serial here first
-            authentication.User("Please enter here your user name");
-            authentication.Serial("Please enter here your user serial key");
-			
-			//create a device instance
-			Tls13Device tlsDevice = new Tls13Device("192.168.1.10");
+
+			// Very important !!!!!!!!!!!!!!!!!!
+			// Enter your Username + Serial here! Please note: Without a license key (empty
+			// fields), the runtime is limited to 10 minutes
+			authentication.User("");
+			authentication.Serial("");
+
+			// create a Tls13Device instance for access to modern PLCs with TLS 1.3 support
+			SymbolicDevice device = new Tls13Device("192.168.1.100");
+			// or create a LegacySymbolicDevice instance for a legacy access to older PLCs
+			//SymbolicDevice device = new LegacySymbolicDevice("192.168.1.100");
 
 			// register project import progress event
-			tlsDevice.addOnProjectImportProgressChangedListener(this);
+			device.addOnProjectImportProgressChangedListener(this);
 
-			ConnectResult connectResult = tlsDevice.connect();
+			ConnectResult connectResult = device.connect();
 
 			if (connectResult.getQuality() != OperationResult.eQuality.GOOD) {
 				System.out.println("Connect not successfull! Quality:  " + connectResult.getQuality() + " Message: "
@@ -37,16 +40,16 @@ public class symbolic_read_example implements IProjectImportProgressChangedCallb
 				return;
 			}
 
-			//which variables do you want to read?
+			// which variables do you want to read?
 			ReadSymbolicRequest readRequest = new ReadSymbolicRequest();
-			readRequest.addFullVariableName("Datenbaustein_1.ByteValue");
-			readRequest.addFullVariableName("Datenbaustein_1.RealValue");
-			readRequest.addFullVariableName("Datenbaustein_1.SIntValue");
-			readRequest.addFullVariableName("Datenbaustein_1.UDIntValue");
+			readRequest.addFullVariableName("myDatablock1.ByteValue");
+			readRequest.addFullVariableName("myDatablock1.RealValue");
+			readRequest.addFullVariableName("myDatablock1.SIntValue");
+			readRequest.addFullVariableName("myDatablock1.UDIntValue");
 
 			// read from device
 			System.out.println("begin Read...");
-			var readResult = tlsDevice.readData(readRequest);
+			var readResult = device.readData(readRequest);
 
 			// evaluate results
 			if (readResult.getQuality() == OperationResult.eQuality.GOOD
@@ -66,10 +69,10 @@ public class symbolic_read_example implements IProjectImportProgressChangedCallb
 			}
 
 			// deregister project import progress event
-			tlsDevice.removeOnProjectImportProgressChangedListener(this);
+			device.removeOnProjectImportProgressChangedListener(this);
 
-			//disconnect
-			tlsDevice.disConnect();
+			// disconnect
+			device.disConnect();
 
 		} finally {
 			System.out.println("Please enter any key for exit!");
@@ -83,7 +86,7 @@ public class symbolic_read_example implements IProjectImportProgressChangedCallb
 
 	@Override
 	public void onProjectImportProgressChanged(int progress) {
-		//print project import progress
+		// print project import progress
 		System.out.println("Import Project " + progress + "% done");
 	}
 

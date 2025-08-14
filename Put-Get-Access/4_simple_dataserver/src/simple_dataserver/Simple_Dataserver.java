@@ -32,11 +32,10 @@ public class Simple_Dataserver
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
 			// Very important !!!!!!!!!!!!!!!!!!
-			// Enter your Username + Serial here
-			System.out.println("Please enter your user name");
-			authentication.User(input.readLine());
-			System.out.println("Please enter your user serial key");
-			authentication.Serial(input.readLine());
+			// Enter your Username + Serial here! Please note: Without a license key (empty
+			// fields), the runtime is limited to 10 minutes
+			authentication.User("");
+			authentication.Serial("");
 
 			System.out.println("Start Connect to TCP_ISO_Device device...");
 			System.out.println(System.getProperty("line.separator"));

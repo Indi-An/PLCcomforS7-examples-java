@@ -14,11 +14,10 @@ public class Optimized_reading_and_writing {
 		try {
 
 			// Very important !!!!!!!!!!!!!!!!!!
-			// Enter your Username + Serial here
-			System.out.println("Please enter your user name");
-			authentication.User(input.readLine());
-			System.out.println("Please enter your user serial key");
-			authentication.Serial(input.readLine());
+			// Enter your Username + Serial here! Please note: Without a license key (empty
+			// fields), the runtime is limited to 10 minutes
+			authentication.User("");
+			authentication.Serial("");
 
 			System.out.println("Start Connect to TCP_ISO_Device device...");
 			System.out.println(System.getProperty("line.separator"));
@@ -160,8 +159,6 @@ public class Optimized_reading_and_writing {
 				}
 			}
 
-		} catch (IOException ex) {
-			System.out.println("Error " + ex.getMessage());
 		} finally {
 			System.out.println("Please enter any key for exit!");
 			try {
