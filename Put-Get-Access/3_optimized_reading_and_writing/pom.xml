@@ -10,7 +10,7 @@
 		<dependency>
 			<groupId>com.indi-an.plccom</groupId>
 			<artifactId>plccom-for-s7</artifactId>
-			<version>15.4.5</version>
+			<version>15.4.6</version>
 		</dependency>
 	</dependencies>
 
