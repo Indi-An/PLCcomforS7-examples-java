@@ -101,10 +101,13 @@ public class ReadWriteSymbolic extends JFrame {
 	private JCheckBox chIsWritable;
 	private JCheckBox chIsArray;
 	private JCheckBox chIsStruct;
+	private JCheckBox chIsSubscribable;
 	private JLabel lblNewLabel;
 	private JLabel lblIsWritable;
 	private JLabel lblIsArray;
 	private JLabel lblIsStruct;
+
+	private JLabel lblIsSubscribable;
 	private JScrollPane valueScrollPane;
 	private JTextArea txtValue;
 	private JLabel lblValue;
@@ -231,32 +234,43 @@ public class ReadWriteSymbolic extends JFrame {
 
 		chIsArray = new JCheckBox();
 		chIsArray.setHorizontalTextPosition(SwingConstants.LEFT);
-		chIsArray.setBounds(751, 210, 21, 23);
+		chIsArray.setBounds(751, 231, 21, 23);
 		chIsArray.setEnabled(false);
 		grpAddress.add(chIsArray);
 
 		chIsStruct = new JCheckBox();
 		chIsStruct.setHorizontalTextPosition(SwingConstants.LEFT);
-		chIsStruct.setBounds(751, 230, 21, 23);
+		chIsStruct.setBounds(751, 251, 21, 23);
 		chIsStruct.setEnabled(false);
 		grpAddress.add(chIsStruct);
 
+
+	    chIsSubscribable = new JCheckBox();
+		chIsSubscribable.setHorizontalTextPosition(SwingConstants.LEFT);
+		chIsSubscribable.setEnabled(false);
+		chIsSubscribable.setBounds(751, 210, 21, 23);
+		grpAddress.add(chIsSubscribable);
+
 		// Labels for checkboxes
 		lblNewLabel = new JLabel("is readable");
-		lblNewLabel.setBounds(695, 175, 58, 14);
+		lblNewLabel.setBounds(683, 174, 69, 14);
 		grpAddress.add(lblNewLabel);
 
 		lblIsWritable = new JLabel("is writable");
-		lblIsWritable.setBounds(695, 195, 58, 14);
+		lblIsWritable.setBounds(683, 194, 69, 14);
 		grpAddress.add(lblIsWritable);
 
 		lblIsArray = new JLabel("is Array");
-		lblIsArray.setBounds(695, 215, 58, 14);
+		lblIsArray.setBounds(683, 235, 69, 14);
 		grpAddress.add(lblIsArray);
 
 		lblIsStruct = new JLabel("is Struct");
-		lblIsStruct.setBounds(695, 235, 58, 14);
+		lblIsStruct.setBounds(683, 255, 69, 14);
 		grpAddress.add(lblIsStruct);
+
+	    lblIsSubscribable = new JLabel("is subscribable");
+		lblIsSubscribable.setBounds(683, 214, 69, 14);
+		grpAddress.add(lblIsSubscribable);
 
 		// Text area for variable value
 		txtValue = new JTextArea();
@@ -301,7 +315,7 @@ public class ReadWriteSymbolic extends JFrame {
 				btnWrite_actionPerformed(e); // Handle write button click
 			}
 		});
-		btnWrite.setBounds(695, 282, 67, 56);
+		btnWrite.setBounds(695, 318, 67, 56);
 		grpAddress.add(btnWrite);
 
 		panAddress.setBounds(grpAddress.getBounds());
@@ -521,7 +535,7 @@ public class ReadWriteSymbolic extends JFrame {
 					txtDataType.setText(nodedetails.getVariableDataType().toString());
 					chIsReadable.setSelected(nodedetails.isReadable());
 					chIsWritable.setSelected(nodedetails.isWritable());
-
+					chIsSubscribable.setSelected(nodedetails.isSubscribable());
 					chIsArray.setSelected(nodedetails.isArray());
 					chIsStruct.setSelected(nodedetails.isStruct());
 				} else {

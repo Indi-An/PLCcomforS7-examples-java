@@ -2,6 +2,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 import com.indian.plccom.fors7.*;
@@ -127,17 +128,75 @@ public class symbolic_subscription_example
 
 	@Override
 	public void onVariableChange(Object sender, List<PlcCoreVariable> variables) {
-		if (sender instanceof PlcSubscription && sender != null) {
-			PlcSubscription subscription = (PlcSubscription) sender;
+	    if (!(sender instanceof PlcSubscription)) {
+	        return; // invalid sender -> do nothing
+	    }
+	    PlcSubscription subscription = (PlcSubscription) sender;
 
-			System.out.println(
-					"Incoming variable change notification for subscription: " + subscription.getSubscriptionName());
-			for (var variable : variables) {
-				System.out.println("Variable: " + variable.getVariableDetails().getFullVariableName() + " Value: "
-						+ variable.getValue());
-			}
+	    System.out.println("Incoming variable change notification for subscription: "
+	            + subscription.getSubscriptionName());
 
-		}
+	    for (PlcCoreVariable variable : variables) {
+	        handleVariable(variable); // process recursively
+	    }
 	}
+
+	/** Processes a variable or struct of any depth. */
+	private void handleVariable(PlcCoreVariable variable) {
+	    if (variable == null) return;
+
+	    if (variable.getVariableDetails().isStruct()) {
+	    	System.out.println(
+		            "Variable: " + variable.getVariableDetails().getFullVariableName());
+	        PlcStructure struct = (PlcStructure) variable;
+	        for (PlcCoreVariable child : struct.getAllChilds()) {
+	            handleVariable(child); // Recursion for childknodes
+	        }
+	    } else {
+	        String valueStr = valueToString(variable.getValue());
+	        System.out.println(
+	            "Variable: " + variable.getVariableDetails().getFullVariableName()
+	            + " Value: " + valueStr
+	        );
+	    }
+	}
+
+
+    /**
+     * Returns the value as a string.
+     * Supports arrays (primitive + object arrays) and arbitrary objects.
+     */
+	    private static String valueToString(Object value) {
+	        if (value == null) {
+	            return "null";
+	        }
+
+	        Class<?> clazz = value.getClass();
+	        if (clazz.isArray()) {
+	            if (value instanceof int[]) {
+	                return Arrays.toString((int[]) value);
+	            } else if (value instanceof long[]) {
+	                return Arrays.toString((long[]) value);
+	            } else if (value instanceof double[]) {
+	                return Arrays.toString((double[]) value);
+	            } else if (value instanceof float[]) {
+	                return Arrays.toString((float[]) value);
+	            } else if (value instanceof boolean[]) {
+	                return Arrays.toString((boolean[]) value);
+	            } else if (value instanceof byte[]) {
+	                return Arrays.toString((byte[]) value);
+	            } else if (value instanceof short[]) {
+	                return Arrays.toString((short[]) value);
+	            } else if (value instanceof char[]) {
+	                return Arrays.toString((char[]) value);
+	            } else {
+	            	// Object arrays or nested arrays
+	                return Arrays.deepToString((Object[]) value);
+	            }
+	        }
+
+	        return value.toString();
+	    }
+
 
 }

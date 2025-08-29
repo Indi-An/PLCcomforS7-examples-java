@@ -901,6 +901,13 @@ public class ReadWriteBox extends JFrame {
 							(Charset) cmbCharSet.getSelectedItem() // Optionally the Encoding for eventual string operations
 							);
 
+
+                    //allow writing multliple bits
+                    //Important hint: If multiple bits are present, this WriteRequest can not be processed optimally.
+                    //All bits are written one after the other.
+                    //It is better and more efficient if a separate WriteRequest is used for each bit.
+                    myWriteRequest.setAllowMultipleBits (true);
+
 					// @formatter:on
 
 					// add writable data to request
