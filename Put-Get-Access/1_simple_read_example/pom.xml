@@ -5,6 +5,11 @@
 	<groupId>1_simple_read_example</groupId>
 	<artifactId>1_simple_read_example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<properties>
+	  <!-- target byte code / API-Level -->
+	  <maven.compiler.release>11</maven.compiler.release>
+	</properties>
 
 
 	<build>
@@ -14,7 +19,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<release>22</release>
+					<release>${maven.compiler.release}</release>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -25,7 +30,7 @@
 		<dependency>
 			<groupId>com.indi-an.plccom</groupId>
 			<artifactId>plccom-for-s7</artifactId>
-			<version>15.5.1</version>
+			<version>15.6.5</version>
 		</dependency>
 	</dependencies>
 

@@ -6,15 +6,11 @@
 	<artifactId>6_symbolic_write_example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.indi-an.plccom</groupId>
-			<artifactId>plccom-for-s7</artifactId>
-			<version>15.5.1</version>
-		</dependency>
-	</dependencies>
-
-
+	<properties>
+	  <!-- target byte code / API-Level -->
+	  <maven.compiler.release>11</maven.compiler.release>
+	</properties>
+	
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -22,9 +18,17 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
-					<release>11</release>
+					<release>${maven.compiler.release}</release>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.indi-an.plccom</groupId>
+			<artifactId>plccom-for-s7</artifactId>
+			<version>15.6.5</version>
+		</dependency>
+	</dependencies>
 </project>
