@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.indi-an.plccom</groupId>
 			<artifactId>plccom-for-s7</artifactId>
-			<version>15.7.3</version>
+			<version>16.0.0-beta3</version>
 		</dependency>
 	</dependencies>
 </project>
