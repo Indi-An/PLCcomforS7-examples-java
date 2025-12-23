@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import java.awt.Color;
+import java.awt.Cursor;
 
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
@@ -73,9 +74,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 
 /**
- * ReadWriteSymbolic is a JFrame-based UI for reading and writing symbolic variables on a PLC device.
- * It allows browsing the PLC address space, reading variable values, writing new values,
- * and viewing diagnostic logs. The UI is fully localized and supports clipboard and file export for logs.
+ * ReadWriteSymbolic is a JFrame-based UI for reading and writing symbolic
+ * variables on a PLC device. It allows browsing the PLC address space, reading
+ * variable values, writing new values, and viewing diagnostic logs. The UI is
+ * fully localized and supports clipboard and file export for logs.
  */
 public class ReadWriteSymbolic extends JFrame {
 
@@ -101,6 +103,7 @@ public class ReadWriteSymbolic extends JFrame {
 	private JCheckBox chIsWritable;
 	private JCheckBox chIsArray;
 	private JCheckBox chIsStruct;
+
 	private JCheckBox chIsSubscribable;
 	private JLabel lblNewLabel;
 	private JLabel lblIsWritable;
@@ -120,8 +123,9 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Constructs the ReadWriteSymbolic dialog and initializes all UI components.
+	 * 
 	 * @param Device The PLC device to connect to.
-	 * @param rb ResourceBundle for localized UI texts.
+	 * @param rb     ResourceBundle for localized UI texts.
 	 */
 	public ReadWriteSymbolic(PLCcomCoreDevice Device, ResourceBundle rb) {
 		this.resources = rb;
@@ -244,8 +248,7 @@ public class ReadWriteSymbolic extends JFrame {
 		chIsStruct.setEnabled(false);
 		grpAddress.add(chIsStruct);
 
-
-	    chIsSubscribable = new JCheckBox();
+		chIsSubscribable = new JCheckBox();
 		chIsSubscribable.setHorizontalTextPosition(SwingConstants.LEFT);
 		chIsSubscribable.setEnabled(false);
 		chIsSubscribable.setBounds(751, 210, 21, 23);
@@ -268,7 +271,7 @@ public class ReadWriteSymbolic extends JFrame {
 		lblIsStruct.setBounds(683, 255, 69, 14);
 		grpAddress.add(lblIsStruct);
 
-	    lblIsSubscribable = new JLabel("is subscribable");
+		lblIsSubscribable = new JLabel("is subscribable");
 		lblIsSubscribable.setBounds(683, 214, 69, 14);
 		grpAddress.add(lblIsSubscribable);
 
@@ -309,13 +312,17 @@ public class ReadWriteSymbolic extends JFrame {
 		grpAddress.add(resultScrollPane);
 
 		// Button to write value to PLC
-		btnWrite = new JButton("Write");
+		btnWrite = new JButton("<html><center>Write</center></html>");
+		btnWrite.setEnabled(false);
+		btnWrite.setHorizontalTextPosition(SwingConstants.CENTER);
+		btnWrite.setVerticalTextPosition(SwingConstants.BOTTOM);
+		btnWrite.setIcon(new ImageIcon(ReadWriteSymbolic.class.getResource("/example_app/pencil2.png")));
 		btnWrite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnWrite_actionPerformed(e); // Handle write button click
 			}
 		});
-		btnWrite.setBounds(695, 318, 67, 56);
+		btnWrite.setBounds(694, 316, 67, 56);
 		grpAddress.add(btnWrite);
 
 		panAddress.setBounds(grpAddress.getBounds());
@@ -378,11 +385,14 @@ public class ReadWriteSymbolic extends JFrame {
 		lvLog.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		lvLog.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "", "Text" }) {
 			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
+
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { String.class, String.class, String.class };
+
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -421,8 +431,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 		txtInfoSymbRCB = new JTextPane();
 		txtInfoSymbRCB.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		txtInfoSymbRCB.setText(
-				"Read or write your symbolically defined variables");
+		txtInfoSymbRCB.setText("Read or write your symbolically defined variables");
 		txtInfoSymbRCB.setEditable(false);
 		txtInfoSymbRCB.setBorder(null);
 		txtInfoSymbRCB.setBackground(SystemColor.info);
@@ -444,7 +453,8 @@ public class ReadWriteSymbolic extends JFrame {
 		ImageIcon originalIcon = new ImageIcon(
 				Main.class.getResource("/example_app/indi.logo2021.1_rgb_PLCcom_130_60.png"));
 		Image originalImage = originalIcon.getImage();
-		Image scaledImage = originalImage.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+		Image scaledImage = originalImage.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(),
+				Image.SCALE_SMOOTH);
 		lblLogo.setIcon(new ImageIcon(scaledImage));
 		getContentPane().add(lblLogo);
 
@@ -457,6 +467,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Handles the window closing event to update the open dialog count.
+	 * 
 	 * @param e WindowEvent
 	 */
 	protected void formWindowClosing(WindowEvent e) {
@@ -464,8 +475,10 @@ public class ReadWriteSymbolic extends JFrame {
 	}
 
 	/**
-	 * Handles the window opened event to set localized texts and load the PLC address tree.
-	 * Initializes the address tree and sets up UI texts from the resource bundle.
+	 * Handles the window opened event to set localized texts and load the PLC
+	 * address tree. Initializes the address tree and sets up UI texts from the
+	 * resource bundle.
+	 * 
 	 * @param arg0 WindowEvent
 	 */
 	protected void formWindowOpened(WindowEvent arg0) {
@@ -490,7 +503,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 		for (var addressTreeNode : globalAddressTree) {
 			var rootNode = new DefaultMutableTreeNode(addressTreeNode.getObjectDescriptor());
-			// rootNode.setUserObject(addressTreeNode.getNodeDetails());
+			rootNode.setUserObject(addressTreeNode.getNodeDetails());
 			addChildNodes(rootNode, addressTreeNode);
 			invisibleRoot.add(rootNode);
 		}
@@ -505,8 +518,9 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Recursively adds child nodes to the address tree for display in the JTree.
+	 * 
 	 * @param parentTreeNode The parent tree node in the JTree.
-	 * @param addressNode The corresponding address node from the PLC.
+	 * @param addressNode    The corresponding address node from the PLC.
 	 */
 	private void addChildNodes(DefaultMutableTreeNode parentTreeNode, AddressNode addressNode) {
 		for (var childnode : addressNode.getChildNodes()) {
@@ -518,59 +532,129 @@ public class ReadWriteSymbolic extends JFrame {
 	}
 
 	/**
-	 * Handles selection changes in the PLC inventory tree.
-	 * Updates the UI with variable details and reads the value if readable.
+	 * Handles selection changes in the PLC inventory tree. Updates the UI with
+	 * variable details and reads the value if readable.
+	 * 
 	 * @param e TreeSelectionEvent
 	 */
 	private void treePlcInventory_valueChanged(TreeSelectionEvent e) {
 		try {
-			DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePlcInventory
-					.getLastSelectedPathComponent();
-			if (selectedNode != null) {
 
-				VariableDetails nodedetails;
-				if (selectedNode.getUserObject() != null && selectedNode.getUserObject() instanceof VariableDetails) {
-					nodedetails = (VariableDetails) selectedNode.getUserObject();
-					txtFullVariableName.setText(nodedetails.getFullVariableName());
-					txtDataType.setText(nodedetails.getVariableDataType().toString());
-					chIsReadable.setSelected(nodedetails.isReadable());
-					chIsWritable.setSelected(nodedetails.isWritable());
-					chIsSubscribable.setSelected(nodedetails.isSubscribable());
-					chIsArray.setSelected(nodedetails.isArray());
-					chIsStruct.setSelected(nodedetails.isStruct());
-				} else {
-					txtDataType.setText("");
-					txtValue.setEditable(false);
-					txtValue.setText("");
-					return;
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			try {
+				DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) treePlcInventory
+						.getLastSelectedPathComponent();
+				if (selectedNode != null) {
 
-				}
+					VariableDetails nodedetails;
+					if (selectedNode.getUserObject() != null
+							&& selectedNode.getUserObject() instanceof VariableDetails) {
+						nodedetails = (VariableDetails) selectedNode.getUserObject();
+						txtFullVariableName.setText(nodedetails.getFullVariableName());
+						txtDataType.setText(nodedetails.getVariableDataType().toString());
+						chIsReadable.setSelected(nodedetails.isReadable());
+						chIsWritable.setSelected(nodedetails.isWritable());
+						chIsSubscribable.setSelected(nodedetails.isSubscribable());
+						chIsArray.setSelected(nodedetails.isArray());
+						chIsStruct.setSelected(nodedetails.isStruct());
+					} else {
+						txtDataType.setText("");
+						txtValue.setEditable(false);
+						txtValue.setText("");
+						return;
 
-				if (nodedetails.isWritable()) {
-					btnWrite.setEnabled(true);
-					txtValue.setEditable(true); // Corrected from txtValue.ReadOnly = false;
-				} else {
-					btnWrite.setEnabled(false);
-					txtValue.setEditable(false); // Corrected from txtValue.ReadOnly = true;
-				}
-
-				if (nodedetails.isReadable()) {
-
-					ReadSymbolicRequest readRequest = new ReadSymbolicRequest();
-					readRequest.addFullVariableName(txtFullVariableName.getText());
-
-					ReadSymbolicResultSet readResult = mDevice.readData(readRequest);
-
-					if (readResult.getQuality() == OperationResult.eQuality.GOOD
-							|| readResult.getQuality() == OperationResult.eQuality.WARNING_PARTITIAL_BAD) {
-						txtValue.setText(readResult.getVariables().get(0).getValueAsJson());
-						txtValue.setCaretPosition(0);
 					}
 
-					txtQuality.setText(readResult.getQuality().toString());
-					txtMessage.setText(readResult.getMessage());
+					if (nodedetails.isWritable()) {
+						btnWrite.setEnabled(true);
+						txtValue.setEditable(true); // Corrected from txtValue.ReadOnly = false;
+					} else {
+						btnWrite.setEnabled(false);
+						txtValue.setEditable(false); // Corrected from txtValue.ReadOnly = true;
+					}
 
-					switch (readResult.getQuality()) {
+					if (nodedetails.isReadable()) {
+
+						ReadSymbolicRequest readRequest = new ReadSymbolicRequest();
+						readRequest.addFullVariableName(txtFullVariableName.getText());
+
+						ReadSymbolicResultSet readResult = mDevice.readData(readRequest);
+
+						if (readResult.getQuality() == OperationResult.eQuality.GOOD
+								|| readResult.getQuality() == OperationResult.eQuality.WARNING_PARTITIAL_BAD) {
+							txtValue.setText(readResult.getVariables().get(0).getValueAsJson());
+							txtValue.setCaretPosition(0);
+						}
+
+						txtQuality.setText(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"))
+						        + " - " +readResult.getQuality().toString());
+
+						txtMessage.setText(readResult.getMessage());
+
+						switch (readResult.getQuality()) {
+						case GOOD:
+							txtQuality.setBackground(new Color(50, 205, 50)); // Equivalent to LimeGreen
+							break;
+						case WARNING_PARTITIAL_BAD:
+							txtQuality.setBackground(Color.YELLOW);
+							break;
+						default:
+							txtQuality.setBackground(Color.RED);
+							break;
+						}
+
+					} else {
+						txtValue.setText("");
+						txtMessage.setText("");
+						txtQuality.setText("");
+						txtValue.setText("");
+						txtQuality.setText("");
+						txtMessage.setText("");
+						txtQuality.setBackground(Color.WHITE);
+					}
+				}
+			} finally {
+				this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+			}
+		} catch (Exception ex) {
+
+			JOptionPane.showMessageDialog(this, getExceptionText(ex));
+		} catch (Error er) {
+
+			JOptionPane.showMessageDialog(this, er.getMessage());
+		}
+
+	}
+
+	/**
+	 * Handles the write button action to write a value to the selected PLC
+	 * variable. Updates the UI with the result of the write operation.
+	 * 
+	 * @param e ActionEvent
+	 */
+	private void btnWrite_actionPerformed(ActionEvent e) {
+		try {
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			try {
+
+				var variableBody = mDevice.getEmptyVariableBody(txtFullVariableName.getText());
+
+				if (variableBody == null)
+					throw new NullPointerException("Cannot found variable for writing");
+
+				variableBody.setValueAsJson(txtValue.getText());
+
+				WriteSymbolicRequest writeRequest = new WriteSymbolicRequest(variableBody);
+
+				WriteSymbolicResultSet writeResult = mDevice.writeData(writeRequest);
+
+				if (writeResult.isQualityGoodOrWarning()) {
+					txtQuality.setText(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"))
+					        + " - " + writeResult.getWriteOperationResults().get(0).getQuality().toString());
+
+					txtMessage.setText(writeResult.getWriteOperationResults().get(0).getMessage());
+
+					switch (writeResult.getWriteOperationResults().get(0).getQuality()) {
 					case GOOD:
 						txtQuality.setBackground(new Color(50, 205, 50)); // Equivalent to LimeGreen
 						break;
@@ -581,71 +665,26 @@ public class ReadWriteSymbolic extends JFrame {
 						txtQuality.setBackground(Color.RED);
 						break;
 					}
-
 				} else {
-					txtValue.setText("");
-					txtMessage.setText("");
-					txtQuality.setText("");
-					txtValue.setText("");
-					txtQuality.setText("");
-					txtMessage.setText("");
-					txtQuality.setBackground(Color.WHITE);
+					txtQuality.setText(java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm:ss"))
+					        + " - " + writeResult.getQuality().toString());
+
+					txtMessage.setText(writeResult.getMessage());
+
+					switch (writeResult.getQuality()) {
+					case GOOD:
+						txtQuality.setBackground(new Color(50, 205, 50)); // Equivalent to LimeGreen
+						break;
+					case WARNING_PARTITIAL_BAD:
+						txtQuality.setBackground(Color.YELLOW);
+						break;
+					default:
+						txtQuality.setBackground(Color.RED);
+						break;
+					}
 				}
-			}
-		} catch (Exception ex) {
-
-			JOptionPane.showMessageDialog(this, getExceptionText(ex));
-		}
-	}
-
-	/**
-	 * Handles the write button action to write a value to the selected PLC variable.
-	 * Updates the UI with the result of the write operation.
-	 * @param e ActionEvent
-	 */
-	private void btnWrite_actionPerformed(ActionEvent e) {
-		try {
-			var variableBody = mDevice.getEmptyVariableBody(txtFullVariableName.getText());
-
-			if (variableBody == null)
-				throw new NullPointerException("Cannot found variable for writing");
-
-			variableBody.setValueAsJson(txtValue.getText());
-
-			WriteSymbolicRequest writeRequest = new WriteSymbolicRequest(variableBody);
-
-			WriteSymbolicResultSet writeResult = mDevice.writeData(writeRequest);
-
-			if (writeResult.isQualityGoodOrWarning()) {
-				txtQuality.setText(writeResult.getWriteOperationResults().get(0).getQuality().toString());
-				txtMessage.setText(writeResult.getWriteOperationResults().get(0).getMessage());
-
-				switch (writeResult.getWriteOperationResults().get(0).getQuality()) {
-				case GOOD:
-					txtQuality.setBackground(new Color(50, 205, 50)); // Equivalent to LimeGreen
-					break;
-				case WARNING_PARTITIAL_BAD:
-					txtQuality.setBackground(Color.YELLOW);
-					break;
-				default:
-					txtQuality.setBackground(Color.RED);
-					break;
-				}
-			} else {
-				txtQuality.setText(writeResult.getQuality().toString());
-				txtMessage.setText(writeResult.getMessage());
-
-				switch (writeResult.getQuality()) {
-				case GOOD:
-					txtQuality.setBackground(new Color(50, 205, 50)); // Equivalent to LimeGreen
-					break;
-				case WARNING_PARTITIAL_BAD:
-					txtQuality.setBackground(Color.YELLOW);
-					break;
-				default:
-					txtQuality.setBackground(Color.RED);
-					break;
-				}
+			} finally {
+				this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, getExceptionText(ex));
@@ -654,6 +693,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Handles the close button action. Hides the window and updates dialog count.
+	 * 
 	 * @param e ActionEvent
 	 */
 	private void btnClose_actionPerformed(ActionEvent e) {
@@ -666,6 +706,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Handles the action to copy the diagnostic log to the clipboard.
+	 * 
 	 * @param e ActionEvent
 	 */
 	private void btnSaveLogtoClipboard_actionPerformed(ActionEvent e) {
@@ -700,6 +741,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Handles the action to save the diagnostic log to a file.
+	 * 
 	 * @param e ActionEvent
 	 */
 	private void btnSaveLogtoFile_actionPerformed(ActionEvent e) {
@@ -755,6 +797,7 @@ public class ReadWriteSymbolic extends JFrame {
 
 	/**
 	 * Utility method to get a formatted exception text including stack trace.
+	 * 
 	 * @param ex Exception
 	 * @return String with error type, message, and stack trace
 	 */

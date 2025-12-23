@@ -84,7 +84,7 @@ import javax.swing.JProgressBar;
 public class Main extends JFrame
 		implements IConnectionStateChangeCallback, IConnectCallback, IProjectImportProgressChangedCallback {
 
-	private PLCcomCoreDevice _device = new TCP_ISO_Device();
+	private PLCcomCoreDevice _device = new TCP_ISO_Device("", 0, 0, ePLCType.S7_300_400_compatibel);
 	private ResourceBundle resources = ResourceBundle.getBundle("example_app.resources");
 	static int CountOpenDialogs = 0;
 
@@ -206,8 +206,7 @@ public class Main extends JFrame
 
 		setTitle("Start Example");
 
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(Main.class.getResource("/example_app/industrial_robot.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/example_app/industrial_robot.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 782, 730);
 
@@ -342,8 +341,8 @@ public class Main extends JFrame
 				btnEditConnectionSettings_actionPerformed(e);
 			}
 		});
-		btnEditConnectionSettings.setIcon(
-				new ImageIcon(Main.class.getResource("/example_app/btnEditConnectionSettings.Image.png")));
+		btnEditConnectionSettings
+				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnEditConnectionSettings.Image.png")));
 		btnEditConnectionSettings.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnEditConnectionSettings.setMargin(new Insets(0, 0, 0, 0));
 		btnEditConnectionSettings.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -414,8 +413,8 @@ public class Main extends JFrame
 				btnSaveConnectionSettings_actionPerformed(e);
 			}
 		});
-		btnSaveConnectionSettings.setIcon(
-				new ImageIcon(Main.class.getResource("/example_app/btnSaveConnectionSettings.Image.png")));
+		btnSaveConnectionSettings
+				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnSaveConnectionSettings.Image.png")));
 		btnSaveConnectionSettings.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnSaveConnectionSettings.setMargin(new Insets(0, 0, 0, 0));
 		btnSaveConnectionSettings.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -665,8 +664,8 @@ public class Main extends JFrame
 				btnReadWriteFunctions_actionPerformed(e);
 			}
 		});
-		btnReadWriteFunctions.setIcon(
-				new ImageIcon(Main.class.getResource("/example_app/btnReadWriteFunctions.Image.png")));
+		btnReadWriteFunctions
+				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnReadWriteFunctions.Image.png")));
 		btnReadWriteFunctions.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnReadWriteFunctions.setMargin(new Insets(0, 0, 0, 0));
 		btnReadWriteFunctions.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -710,8 +709,7 @@ public class Main extends JFrame
 			}
 
 		});
-		btnBlockFunctions
-				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnBlockFunctions.Image.png")));
+		btnBlockFunctions.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnBlockFunctions.Image.png")));
 		btnBlockFunctions.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnBlockFunctions.setMargin(new Insets(0, 0, 0, 0));
 		btnBlockFunctions.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -725,8 +723,7 @@ public class Main extends JFrame
 			}
 
 		});
-		btnOtherFunctions
-				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnOtherFunctions.Image.png")));
+		btnOtherFunctions.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnOtherFunctions.Image.png")));
 		btnOtherFunctions.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnOtherFunctions.setMargin(new Insets(0, 0, 0, 0));
 		btnOtherFunctions.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -739,8 +736,8 @@ public class Main extends JFrame
 				btnReadWriteSymbolic_actionPerformed(e);
 			}
 		});
-		btnReadWriteSymbolic.setIcon(
-				new ImageIcon(Main.class.getResource("/example_app/btnReadWriteFunctions.Image.png")));
+		btnReadWriteSymbolic
+				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnReadWriteFunctions.Image.png")));
 		btnReadWriteSymbolic.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnReadWriteSymbolic.setMargin(new Insets(0, 0, 0, 0));
 		btnReadWriteSymbolic.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -748,8 +745,8 @@ public class Main extends JFrame
 		grbAccess.add(btnReadWriteSymbolic);
 
 		btnSubscribeVariables = new JButton("<html><center>subscribe</center><center>variables</center></html>");
-		btnSubscribeVariables.setIcon(
-				new ImageIcon(Main.class.getResource("/example_app/btnReadWriteFunctions.Image.png")));
+		btnSubscribeVariables
+				.setIcon(new ImageIcon(Main.class.getResource("/example_app/btnReadWriteFunctions.Image.png")));
 		btnSubscribeVariables.setVerticalTextPosition(SwingConstants.BOTTOM);
 		btnSubscribeVariables.setMargin(new Insets(0, 0, 0, 0));
 		btnSubscribeVariables.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -782,7 +779,6 @@ public class Main extends JFrame
 		btnClose.setBounds(686, 583, 68, 68);
 		contentPane.add(btnClose);
 	}
-
 
 	private void formWindowOpened(WindowEvent arg0) {
 		// Set location to center screen
@@ -858,13 +854,11 @@ public class Main extends JFrame
 	public void On_ConnectionStateChange(eConnectionState value) {
 		try {
 
-
-			 // If we're not in the EDT, we move all the rest there:
-		    if (!SwingUtilities.isEventDispatchThread()) {
-		        SwingUtilities.invokeLater(() -> On_ConnectionStateChange(value));
-		        return;
-		    }
-
+			// If we're not in the EDT, we move all the rest there:
+			if (!SwingUtilities.isEventDispatchThread()) {
+				SwingUtilities.invokeLater(() -> On_ConnectionStateChange(value));
+				return;
+			}
 
 			if (!_device.getAutoConnectState()) {
 				if (panAccess.isEnabled() != _device.IsConnected()) {
@@ -925,14 +919,14 @@ public class Main extends JFrame
 		// DeRegister event for showing prject import progress
 		if (_device instanceof SymbolicDevice) {
 			if (SwingUtilities.isEventDispatchThread()) {
+				((SymbolicDevice) _device).removeOnProjectImportProgressChangedListener(this);
+				txtProgbarStatus.setVisible(false);
+				prgProjectImport.setVisible(false);
+			} else {
+				SwingUtilities.invokeLater(() -> {
 					((SymbolicDevice) _device).removeOnProjectImportProgressChangedListener(this);
 					txtProgbarStatus.setVisible(false);
 					prgProjectImport.setVisible(false);
-			} else {
-				SwingUtilities.invokeLater(() -> {
-						((SymbolicDevice) _device).removeOnProjectImportProgressChangedListener(this);
-						txtProgbarStatus.setVisible(false);
-						prgProjectImport.setVisible(false);
 				});
 			}
 		}
@@ -1575,13 +1569,14 @@ public class Main extends JFrame
 		authentication.setSerial(txtSerial.getText());
 		authentication.setUser(txtUser.getText());
 		try {
-			if (_device.IsConnected())
+			if (_device != null && _device.IsConnected())
 				_device.disConnect();
 			switch ((eTypeOfCommunication) cmbConnectionType.getSelectedItem()) {
 			case TCP:
 				if ((ePLCType) cmbPLCType.getSelectedItem() == ePLCType.Symbolic_Tls13) {
 					_device = new Tls13Device(txtAdress0.getText(), txtProtectionUser.getText(),
 							new String(txtProtectionPassword.getPassword()));
+					((Tls13Device) _device).setAcceptAllServerCertificates(true);
 				} else if ((ePLCType) cmbPLCType.getSelectedItem() == ePLCType.Symbolic_Legacy) {
 					_device = new LegacySymbolicDevice(txtAdress0.getText(),
 							new String(txtProtectionPassword.getPassword()));
@@ -1655,7 +1650,9 @@ public class Main extends JFrame
 				return;
 			}
 
-			_device.disConnect();
+			if (_device != null)
+				_device.disConnect();
+
 			btnEditConnectionSettings.setEnabled(false);
 			panAccess.setEnabled(false);
 			panConnectionSettings.setEnabled(true);
@@ -1704,8 +1701,7 @@ public class Main extends JFrame
 		if (_device instanceof Tls13Device) {
 			ReadWriteSymbolic rws = new ReadWriteSymbolic((Tls13Device) _device, resources);
 			rws.setVisible(true);
-		}
-		else if (_device instanceof LegacySymbolicDevice) {
+		} else if (_device instanceof LegacySymbolicDevice) {
 			ReadWriteSymbolic rws = new ReadWriteSymbolic((LegacySymbolicDevice) _device, resources);
 			rws.setVisible(true);
 		}
@@ -1716,7 +1712,6 @@ public class Main extends JFrame
 		AlarmFunctions alf = new AlarmFunctions((PLCcomCoreDevice) _device, resources);
 		alf.setVisible(true);
 	}
-
 
 	public void btnPlcTypeHelp_actionPerformed(ActionEvent e) {
 
