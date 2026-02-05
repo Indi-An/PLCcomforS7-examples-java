@@ -1,1 +1,23 @@
-/.metadata/
+# Eclipse workspace (never commit)
+.metadata/
+
+# Eclipse project files (usually do NOT commit in public Maven repos)
+.project
+.classpath
+.settings/
+
+# Maven build output
+target/
+
+# IntelliJ / other IDEs (nice to have in public repos)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
