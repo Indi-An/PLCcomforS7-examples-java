@@ -51,7 +51,7 @@ For a full list of supported features, detailed descriptions, and compatibility 
 <dependency>
     <groupId>com.indi-an.plccom</groupId>
     <artifactId>plccom-for-s7</artifactId>
-    <version>15.2.8</version>
+    <version>16.2.1</version>
 </dependency>
 ```
 
