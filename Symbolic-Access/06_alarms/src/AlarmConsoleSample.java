@@ -31,8 +31,14 @@ public final class AlarmConsoleSample {
 	private static final Object CONSOLE_LOCK = new Object();
 
 	public static void main(String[] args) throws Exception {
-		// Allow overriding PLC IP from CLI: mvn -q exec:java -Dexec.args="192.168.1.10"
-		final String ip = (args.length > 0) ? args[0] : "192.168.1.10";
+
+		// Very important !!!!!!!!!!!!!!!!!!
+		// Enter your Username + Serial here! 
+    	// Please note: Please note: For execution, a (test) license is required. You can request a trial license themselves via the PLCcom for S7 [download website](https://www.indi-an.com/en/plccom/for-s7/fors7-download/)
+        authentication.User("");  
+        authentication.Serial("");  
+		
+		final String ip = (args.length > 0) ? args[0] : "192.168.1.100";
 
 		// Use the OS default locale. This matches the Swing examples
 		// (Locale.getDefault()).
@@ -45,10 +51,7 @@ public final class AlarmConsoleSample {
 		// ---------------------------------------------------------------------
 		// 1) CONNECT (replace/adapt this block to your fork’s connection pattern)
 		// ---------------------------------------------------------------------
-		// In the C# example you used Tls13Device. The Java fork typically offers a
-		// similar device.
-		// If your fork uses a different device type or different auth setup, adjust
-		// here.
+
 		final SymbolicDevice device = new Tls13Device(ip);
 
 		// The concrete ConnectResult type depends on your fork/API version.

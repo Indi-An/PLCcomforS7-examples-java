@@ -26,9 +26,12 @@ public class SymbolicReadHierarchyScope implements IProjectImportProgressChanged
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
         try {
-            // License / Authentication (optional)
-            authentication.User("");
-            authentication.Serial("");
+
+			// Very important !!!!!!!!!!!!!!!!!!
+			// Enter your Username + Serial here! 
+        	// Please note: Please note: For execution, a (test) license is required. You can request a trial license themselves via the PLCcom for S7 [download website](https://www.indi-an.com/en/plccom/for-s7/fors7-download/)
+            authentication.User("");  
+            authentication.Serial("");  
 
             // Device selection (TLS vs Legacy)
             SymbolicDevice device = new Tls13Device("192.168.1.100");

@@ -1,6 +1,7 @@
 
 import com.indian.plccom.fors7.IServerCertificateValidator;
 import com.indian.plccom.fors7.Tls13Device;
+import com.indian.plccom.fors7.authentication;
 
 import java.io.IOException;
 import java.security.PublicKey;
@@ -23,9 +24,16 @@ public final class ValidateServerCertificateSample {
      * @param args Command line arguments.
      */
     public static void main(String[] args) {
-        Tls13Device device = new Tls13Device("192.168.1.10");
+        Tls13Device device = new Tls13Device("192.168.1.100");
 
         try {
+        	
+			// Very important !!!!!!!!!!!!!!!!!!
+			// Enter your Username + Serial here! 
+        	// Please note: Please note: For execution, a (test) license is required. You can request a trial license themselves via the PLCcom for S7 [download website](https://www.indi-an.com/en/plccom/for-s7/fors7-download/)
+            authentication.User("");  
+            authentication.Serial("");  
+            
             // 1) Create validator
             IServerCertificateValidator validator = new MyCustomCertificateValidator();
 
