@@ -13,7 +13,7 @@ It demonstrates:
 
 ## How to run
 1. Open the project and run Program/Main class.
-2. Enter license credentials (optional). Without credentials the runtime is limited.
+2. Enter license credentials. For execution, a (test) license is required. Users can request a trial license themselves via the PLCcom for S7 [download website](https://www.indi-an.com/en/plccom/for-s7/fors7-download/)
 3. Set the PLC IP address.
 4. Run.
 
