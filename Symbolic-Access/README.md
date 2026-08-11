@@ -60,5 +60,5 @@ Without an appropriate license, PLCcom falls back to RequestedOnly and child mem
 
 - Java 11 runtime (recommended as required by PLCcom for S7)
 - Configure PLC IP address in the sample
-- Enter license credentials (optional); without credentials runtime is limited (trial)
+- Enter license credentials (optional): without them the library runs for 15 minutes during a debug session. For uninterrupted work, a free trial licence valid for 14 days is available from the PLCcom for S7 [download website](https://www.indi-an.com/en/plccom/for-s7/fors7-download/)
 - Choose the correct device type (TLS / legacy) as shown in each sample

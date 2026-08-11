@@ -32,9 +32,11 @@ public final class AlarmConsoleSample {
 
 	public static void main(String[] args) throws Exception {
 
-		// Very important !!!!!!!!!!!!!!!!!!
-		// Enter your Username + Serial here! 
-    	// Please note: Please note: For execution, a (test) license is required. You can request a trial license themselves via the PLCcom for S7 [download website](https://www.indi-an.com/en/plccom/for-s7/fors7-download/)
+		// Important !!!!!!!!!!!!!!!!!!
+		// Enter your Username + Serial here! Please note: with blank fields the library runs
+		// for 15 minutes during a debug session. Both values can also come
+		// from configuration or an environment variable.
+		// Free trial license (14 days, uninterrupted): https://www.indi-an.com/en/plccom/for-s7/fors7-download/
         authentication.User("");  
         authentication.Serial("");  
 		
@@ -44,7 +46,11 @@ public final class AlarmConsoleSample {
 		// (Locale.getDefault()).
 		final Locale appLocale = Locale.getDefault();
 
-		// License/authentication: user must provide correct values.
+		// Important !!!!!!!!!!!!!!!!!!
+		// Enter your Username + Serial here! Please note: with blank fields the library runs
+		// for 15 minutes during a debug session. Both values can also come
+		// from configuration or an environment variable.
+		// Free trial license (14 days, uninterrupted): https://www.indi-an.com/en/plccom/for-s7/fors7-download/
 		authentication.setUser("");
 		authentication.setSerial("");
 
